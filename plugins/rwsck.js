@@ -9,6 +9,7 @@
  * @admin true
  * @public false
  * @priority 1000
+ * @classification ["Qinglong"]
  */
 
 const QlMod = require("../红灯区/mod/AmQlMod")
