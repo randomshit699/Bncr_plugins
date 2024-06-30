@@ -9,6 +9,7 @@
  * @admin true
  * @public false
  * @priority 1000
+ * @classification ["Server"]
  */
 //@rule触发词可自行更换
 
