@@ -12,6 +12,7 @@
  * @admin false
  * @disable false
  * @cron 30 30 *\/2 * * *
+ * @classification ["Server"]
  */
 /*
 说明：
