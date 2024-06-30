@@ -7,7 +7,7 @@
  * @rule ^crbfd$
  * @description 检查反代列表，更换可用的rabbitpro反代
  * @admin true
- * @public false
+ * @public true
  * @priority 1000
  * @classification ["Server"]
  */
