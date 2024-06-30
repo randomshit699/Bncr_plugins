@@ -7,7 +7,7 @@
  * @rule ^IP变化通知$
  * @description IP变化通知，变化后自动执行代理“更换白名单”命令，多线路的请勿使用，增加更换dynv6 ddns功能
  * @admin true
- * @public false
+ * @public true
  * @priority 1000
  * @cron 0 *\/3 * * * *
  * @classification ["Server"]
