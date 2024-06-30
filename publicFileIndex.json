@@ -88,28 +88,6 @@
     "id": "+rpFRGQTTs1GqLn0tZrqs2PQEao=",
     "isChatPlugin": true
   },
-  "tzYs9NvL6k6ZQXqO06GNvFkZ7Ns=": {
-    "type": "github",
-    "name": "更新代理白名单",
-    "author": "小九九 t.me/gdot0",
-    "team": "小九九",
-    "version": "1.1.0",
-    "description": "更换jl、su、51、yyy、ipzan白名单",
-    "classification": [
-      "Server"
-    ],
-    "filename": "更新代理白名单.js",
-    "fileDir": "/plugins/更新代理白名单.js",
-    "systemVersionRange": "",
-    "isCron": false,
-    "isAdapter": false,
-    "isMod": false,
-    "isService": false,
-    "isAuthentication": false,
-    "isEncPlugin": false,
-    "id": "tzYs9NvL6k6ZQXqO06GNvFkZ7Ns=",
-    "isChatPlugin": true
-  },
   "6zqoHo1yk8udJ6k8sGJJXOeLW4Q=": {
     "type": "github",
     "name": "清空账密登录锁",
