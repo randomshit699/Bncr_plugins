@@ -879,7 +879,7 @@ async def main(workList, uid, oocr):
             else:
                 print("貌似第一次使用，未找到chrome，正在下载chrome浏览器....")
                 print("文件位于github，请耐心等待，如遇到网络问题可到项目地址手动下载")
-                download_url = "https://github.com/dsmggm/svjdck/releases/download/jdck/chrome-linux.zip"
+                download_url = "https://mirrors.huaweicloud.com/chromium-browser-snapshots/Linux_x64/884014/chrome-linux.zip"
                 if not os.path.exists(download_path):  # 如果没有路径就创建路径
                     os.makedirs(download_path, exist_ok=True)  # 创建下载路径
                 target_file = os.path.join(
