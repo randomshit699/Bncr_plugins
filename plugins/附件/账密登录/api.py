@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 # api.py
-# author: 小九九 t.me/gdot0
-run_port = 12345 #修改运行端口
+run_host = "0.0.0.0"
+run_port = 12345
+
 
 from quart import Quart, request, jsonify
 import hashlib, asyncio
@@ -39,11 +40,11 @@ class account:
 # 正在处理的账号列表
 workList = {}
 """
-workList ={
+(global) workList ={
     uid: {
         status: pending,
-        account: 123xxxxxxxx, 
-        password: test123,
+        account: 138xxxxxxxx, 
+        password: admin123,
         isAuto: False
         cookie: ""
         SMS_CODE: None,
@@ -54,7 +55,7 @@ workList ={
 """
 app = Quart(__name__)
 
-# 制作响应
+
 def mr(status, **kwargs):
     r_data = {}
     r_data["status"] = status
@@ -77,12 +78,13 @@ async def login():
         return r
     # 检测重复提交
     if workList.get(u.uid):
-        workList[u.uid].SMS_CODE = ""
+        workList[u.uid].SMS_CODE = None
         r = mr("pass", uid=u.uid, msg=f"{u.account}已经在处理了，请稍后再试")
         return r
 
-    # 开始登录
+    # 新增记录
     workList[u.uid] = u
+    # 非阻塞启动登录线程
     asyncio.create_task(THREAD_DO_LOGIN(workList, u.uid, ocr))
     # 更新信息，响应api请求
     workList[u.uid].status = "pending"
@@ -90,7 +92,7 @@ async def login():
     return r
 
 
-# 登录过程
+# 调用后端进行登录
 async def THREAD_DO_LOGIN(workList, uid, ocr):
     try:
         await backend.main(workList, uid, ocr)
@@ -110,13 +112,13 @@ async def THREAD_DO_LOGIN(workList, uid, ocr):
     """
 
 
-# 检查后端进度
+# 检查后端进度记录
 @app.route("/check", methods=["POST"])
 async def check():
     data = await request.get_json()
     uid = data.get("uid", None)
     r = None
-    # 有记录
+    # 账号列表有记录
     if workList.get(uid, ""):
         status = workList[uid].status
         if status == "pass":
@@ -132,13 +134,13 @@ async def check():
             r = mr(status, msg="短信验证错误，请重新输入")
         else:
             r = mr("error", msg="笨蛋开发者，忘记适配新状态啦：" + status)
-    # 无记录
+    # 账号列表无记录
     else:
         r = mr("error", msg="未找到该账号记录，请重新登录")
     return r
 
 
-# 传入短信验证码
+# 传入短信验证码，更新账号列表使后端可以调用
 @app.route("/sms", methods=["POST"])
 async def sms():
     data = await request.get_json()
@@ -186,4 +188,5 @@ def delck():
 
     THREAD_DELCK(uid)
 """
-asyncio.new_event_loop().run_until_complete(app.run(host="0.0.0.0", port=run_port))
+# 创建本线程的事件循环，运行flask作为第一个任务
+asyncio.new_event_loop().run_until_complete(app.run(host=run_host, port=run_port))
