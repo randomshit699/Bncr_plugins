@@ -19,6 +19,7 @@
  * @priority 10000
  * @admin false
  * @disable false
+ * @classification ["Server"]
  */
 /*
 功能：
