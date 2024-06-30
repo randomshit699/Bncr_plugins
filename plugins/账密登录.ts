@@ -10,6 +10,7 @@
  * @rule ^(账密登录) ([^\s]+) ([^\s]+)$
  * @priority 10000
  * @admin false
+ * @public true
  * @disable false
  * @cron 30 30 *\/2 * * *
  * @classification ["Server"]
