@@ -1,5 +1,71 @@
 {
   "annotation": "该文件由系统自动生成. 用于插件市场索引,请勿编辑该文件中的任何内容",
+  "CcApUhCeCKB8zk/7wumFaa+ikiM=": {
+    "type": "github",
+    "name": "IP变化通知",
+    "author": "IP变化通知",
+    "team": "小寒寒-小九九二改",
+    "version": "1.0.2",
+    "description": "IP变化通知，变化后自动执行代理“更换白名单”命令，多线路的请勿使用，增加更换dynv6 ddns功能",
+    "classification": [
+      "Server"
+    ],
+    "filename": "IP变化通知.js",
+    "fileDir": "/plugins/IP变化通知.js",
+    "systemVersionRange": "",
+    "isCron": false,
+    "isAdapter": false,
+    "isMod": false,
+    "isService": false,
+    "isAuthentication": false,
+    "isEncPlugin": false,
+    "id": "CcApUhCeCKB8zk/7wumFaa+ikiM=",
+    "isChatPlugin": true
+  },
+  "/+jgd0vrhDpuxwExVXbW1GDGBdc=": {
+    "type": "github",
+    "name": "rwsck",
+    "author": "小九九 t.me/gdot0",
+    "team": "小九九",
+    "version": "1.0",
+    "description": "调用青龙rwsck转换脚本（见附件文件夹）",
+    "classification": [
+      "Qinglong"
+    ],
+    "filename": "rwsck.js",
+    "fileDir": "/plugins/rwsck.js",
+    "systemVersionRange": "",
+    "isCron": false,
+    "isAdapter": false,
+    "isMod": false,
+    "isService": false,
+    "isAuthentication": false,
+    "isEncPlugin": false,
+    "id": "/+jgd0vrhDpuxwExVXbW1GDGBdc=",
+    "isChatPlugin": true
+  },
+  "aQ2J8WMqE7ux7zifO5bZjSgk2NU=": {
+    "type": "github",
+    "name": "stockPrice",
+    "author": "小九九 t.me/gdot0",
+    "team": "小九九",
+    "version": "v1.0.0",
+    "description": "查大A与美股股价，持仓，盈利(浮) ",
+    "classification": [
+      "Server"
+    ],
+    "filename": "stockPrice.ts",
+    "fileDir": "/plugins/stockPrice.ts",
+    "systemVersionRange": "",
+    "isCron": false,
+    "isAdapter": false,
+    "isMod": false,
+    "isService": false,
+    "isAuthentication": false,
+    "isEncPlugin": false,
+    "id": "aQ2J8WMqE7ux7zifO5bZjSgk2NU=",
+    "isChatPlugin": true
+  },
   "+rpFRGQTTs1GqLn0tZrqs2PQEao=": {
     "type": "github",
     "name": "更换rabbitpro反代",
