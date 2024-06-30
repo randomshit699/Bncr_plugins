@@ -9,6 +9,7 @@
  * @public false
  * @cron 0 0 *\/1 * * *
  * @priority 1000
+ * @classification ["Server"]
  */
 
 //配置
