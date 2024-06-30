@@ -2,38 +2,39 @@
  * @author 小九九 t.me/gdot0
  * @name 更新代理白名单
  * @origin 小九九
- * @team 小九九
  * @version 1.1.0
  * @rule ^chwlst$
  * @description 更换jl、su、51、yyy、ipzan白名单
  * @admin true
- * @public true
+ * @public false
  * @cron 0 0 *\/1 * * *
  * @priority 1000
- * @classification ["Server"]
  */
 
 //配置
 const yyytoken = ""; //优易云token
+
+const d51Key = ""; //51代理key
+
+const suKey = ""; //速代理key
+
+const jltradeNo = ""; //巨量订单号
+const jlkey = ""; //巨量key
+
 const ipzanNo = ""; //品赞订单号
 const ipzanUserId = ""; //品赞用户id
-const d51Key = ""; //51代理key
-const suKey = "" //速代理key
-const jltradeNo = "" //巨量订单号
-const jlkey = "" //巨量key
+const 品赞登录密码 = "";
+const 品赞套餐提取密匙 = "";
+const 品赞签名密匙 = "";
 
-
-
-const request = require('util').promisify(require('request'));
-const got = require('got');
-const DB = new BncrDB('djunDB'); //从ipChange.js中调取本地ip
-
+const request = require("util").promisify(require("request"));
+const got = require("got");
+const DB = new BncrDB("djunDB"); //从ipChange.js中调取本地ip
 
 const yyyurl = "http://data.yyyip.cn:8888/whiteip_api?";
 //const url = "https://4.ipw.cn/";
 
-module.exports = async s => {
-
+module.exports = async (s) => {
     /*
     let data = await request({
         url: url,
@@ -46,33 +47,34 @@ module.exports = async s => {
         return;
     }
     */
-    let newip = await DB.get('local_ip');
+    let newip = await DB.get("local_ip");
     console.log(newip);
     if (newip) {
-        let adminNotice="";
-        Promise.all([ //并发提交更换白名单请求，如果有新请求，请加到这个数列里面
+        let adminNotice = "";
+        Promise.all([
+            //并发提交更换白名单请求，如果有新请求，请加到这个数列里面
             jl(),
             yyy(),
             su(),
-            ipzan()
-        ]).then(()=>{
+            ipzan(),
+        ]).then(() => {
             //console.log("更换白名单结果：\n" + adminNotice);
             sysMethod.pushAdmin({
-                platform: ['tgBot'],
-                type: 'text',
-                msg: "更换白名单结果：\n" + adminNotice.slice(0, -2)
+                platform: ["tgBot"],
+                type: "text",
+                msg: "更换白名单结果：\n" + adminNotice.slice(0, -2),
             });
-        })
+        });
 
         //await updateIp();
 
         //各家代理更换白名单的方法，可自行补充
-        async function jl(){
+        async function jl() {
             //巨量
             //替换白名单
             const jlApi = "http://v2.api.juliangip.com/dynamic/getwhiteip?trade_no=" + jltradeNo + "&sign=" + jlwlSign();
-            let jlWhiteList="";
-            try{
+            let jlWhiteList = "";
+            try {
                 jlWhiteList = await got(jlApi).json();
             } catch (err) {
                 console.log("巨量获取白名单失败");
@@ -80,31 +82,38 @@ module.exports = async s => {
                 return;
             }
             //console.log(jlWhiteList);
-            try{
+            try {
                 const jlWhiteIp = jlWhiteList.data.current_white_ip;
                 function jlrpSign() {
                     const string = "new_ip=" + newip + "&old_ip=" + jlWhiteIp + "&trade_no=" + jltradeNo + "&key=" + jlkey;
-                    const md5 = require('md5');
+                    const md5 = require("md5");
                     const sign = md5(string);
                     return sign;
                 }
                 let jlWhiteReplace = await request({
-                    url: "http://v2.api.juliangip.com/dynamic/replaceWhiteIp?trade_no=" + jltradeNo + "&new_ip=" + newip + "&old_ip=" + jlWhiteIp 
-                    + "&sign=" + jlrpSign(),
-                    method: 'get'
+                    url:
+                        "http://v2.api.juliangip.com/dynamic/replaceWhiteIp?trade_no=" +
+                        jltradeNo +
+                        "&new_ip=" +
+                        newip +
+                        "&old_ip=" +
+                        jlWhiteIp +
+                        "&sign=" +
+                        jlrpSign(),
+                    method: "get",
                 });
                 //onsole.log(jlWhiteReplace.body);
                 //adminNotice += jlWhiteReplace.body;
-            }catch(err){
+            } catch (err) {
                 console.log("巨量替换白名单失败");
                 adminNotice += "巨量push error\n";
                 return;
-            }     
+            }
             console.log("巨量替换ip成功");
             adminNotice += "巨量success\n";
         }
 
-        async function yyy(){
+        async function yyy() {
             //优亦云
             //删除旧白名单
             console.log("开始更换");
@@ -115,7 +124,7 @@ module.exports = async s => {
                 let yyyWhiteIp = yyyWhiteRec.ip;
                 let yyyWhiteDel = await request({
                     url: yyyurl + "method=del&token=" + yyytoken + "&ip=" + yyyWhiteIp,
-                    method: 'get'
+                    method: "get",
                 });
                 //console.log(yyyWhiteDel.body);
             }
@@ -123,13 +132,13 @@ module.exports = async s => {
             //添加新白名单
             let yyydata = await request({
                 url: yyyurl + "method=add&token=" + yyytoken + "&ip=" + newip,
-                method: 'get'
+                method: "get",
             });
             console.log("优亦云添加新ip成功");
             adminNotice += "优亦云success\n";
             //console.log(yyydata.body);
         }
- 
+
         /*
         await function d51(){
             //51
@@ -155,7 +164,7 @@ module.exports = async s => {
         }
         */
 
-        async function su(){
+        async function su() {
             //速
             //删除旧白名单
             const suApi = "https://sudaili.com/whiteIP?op=list&appkey=" + suKey;
@@ -164,7 +173,7 @@ module.exports = async s => {
             for (const suWhiteIp of suWhiteList.data.list) {
                 let suWhiteDel = await request({
                     url: "https://sudaili.com/whiteIP?op=del&appkey=" + suKey + "&whiteip=" + suWhiteIp,
-                    method: 'get'
+                    method: "get",
                 });
                 //console.log(d51WhiteDel.body);
             }
@@ -172,24 +181,24 @@ module.exports = async s => {
             //添加新白名单
             let sudata = await request({
                 url: "https://sudaili.com/whiteIP?op=add&appkey=" + suKey + "&whiteip=" + newip,
-                method: 'get'
+                method: "get",
             });
             console.log("速添加新ip成功");
             adminNotice += "速success\n";
             //console.log(sudata.body);
         }
 
-        async function ipzan(){
+        async function ipzan() {
             //品赞
             //删除旧白名单
             const ipzanApi = "https://service.ipzan.com/whiteList-get?no=" + ipzanNo + "&userId=" + ipzanUserId;
             let ipzanWhiteList = await got(ipzanApi).json();
-            //console.log(ipzanWhiteList);                                                                                        
+            //console.log(ipzanWhiteList);
             for (const ipzanWhiteRec of ipzanWhiteList.data) {
                 let ipzanWhiteIp = ipzanWhiteRec.id;
                 let ipzanWhiteDel = await request({
                     url: "https://service.ipzan.com/whiteList-del?no=" + ipzanNo + "&userId=" + ipzanUserId + "&ip=" + ipzanWhiteIp,
-                    method: 'get'
+                    method: "get",
                 });
                 //console.log(ipzanWhiteDel.body);
             }
@@ -197,23 +206,20 @@ module.exports = async s => {
             //添加新白名单
             let ipzandata = await request({
                 url: "https://service.ipzan.com/whiteList-add?no=" + ipzanNo + "&sign=" + ipzanSign() + "&ip=" + newip,
-                method: 'get'
+                method: "get",
             });
             console.log("品赞添加新ip成功");
             adminNotice += "品赞success\n";
             //console.log(ipzandata.body);
         }
-
-
     }
 
-
     function ipzanSign() {
-        const CryptoJS = require('crypto-js');
+        const CryptoJS = require("crypto-js");
         //const data = `登录密码:套餐提取密匙:${Date.now() / 1000}`;
-        const data = `qwer1234:dksoaosuatjvqdo:${Date.now() / 1000}`;
+        const data = `${品赞登录密码}:${品赞套餐提取密匙}:${Date.now() / 1000}`;
         //const key = CryptoJS.enc.Utf8.parse(签名密匙);
-        const key = CryptoJS.enc.Utf8.parse('nm4iusse4irgfmh1');
+        const key = CryptoJS.enc.Utf8.parse(`${品赞签名密匙}`);
         const encryptedData = CryptoJS.AES.encrypt(data, key, {
             mode: CryptoJS.mode.ECB,
             padding: CryptoJS.pad.Pkcs7,
@@ -221,10 +227,10 @@ module.exports = async s => {
         const sign = encryptedData.ciphertext.toString();
         return sign;
     }
+};
+function jlwlSign() {
+    const string = "trade_no=" + jltradeNo + "&key=" + jlkey;
+    const md5 = require("md5");
+    const sign = md5(string);
+    return sign;
 }
-    function jlwlSign() {
-        const string = "trade_no=" + jltradeNo + "&key=" + jlkey;
-        const md5 = require('md5');
-        const sign = md5(string);
-        return sign;
-    }
