@@ -1,5 +1,27 @@
 {
   "annotation": "该文件由系统自动生成. 用于插件市场索引,请勿编辑该文件中的任何内容",
+  "+rpFRGQTTs1GqLn0tZrqs2PQEao=": {
+    "type": "github",
+    "name": "更换rabbitpro反代",
+    "author": "小九九 t.me/gdot0",
+    "team": "小九九",
+    "version": "1.0",
+    "description": "检查反代列表，更换可用的rabbitpro反代",
+    "classification": [
+      "Server"
+    ],
+    "filename": "更换rabbitpro反代.js",
+    "fileDir": "/plugins/更换rabbitpro反代.js",
+    "systemVersionRange": "",
+    "isCron": false,
+    "isAdapter": false,
+    "isMod": false,
+    "isService": false,
+    "isAuthentication": false,
+    "isEncPlugin": false,
+    "id": "+rpFRGQTTs1GqLn0tZrqs2PQEao=",
+    "isChatPlugin": true
+  },
   "tzYs9NvL6k6ZQXqO06GNvFkZ7Ns=": {
     "type": "github",
     "name": "更新代理白名单",
