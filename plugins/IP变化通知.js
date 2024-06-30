@@ -10,6 +10,7 @@
  * @public false
  * @priority 1000
  * @cron 0 *\/3 * * * *
+  * @classification ["Server"]
  */
 const log4js = require("log4js");
 const log = log4js.getLogger("ipChange.js");
