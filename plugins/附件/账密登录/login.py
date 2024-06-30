@@ -1,6 +1,4 @@
 # -*- coding: utf-8 -*-
-# login.py
-# author: github/svjdck & github.com/icepage/AutoUpdateJdCookie & 小九九 t.me/gdot0
 
 
 import os  # 读取配置文件
@@ -80,8 +78,6 @@ async def logon_main(chromium_path, workList, uid):
 
     # 判断验证码超时
     async def isStillInSMSCodeSentPage(page):
-        if not sms_sent:
-            return False
         try:
             if await page.xpath('//*[@id="header"]/span[2]'):
                 element = await page.xpath('//*[@id="header"]/span[2]')
@@ -121,7 +117,25 @@ async def logon_main(chromium_path, workList, uid):
         except Exception as e:
             print("needResendSMSCode " + str(e))
             return False
-
+    async def isSendSMSDirectly(page):
+        try:
+            if await page.xpath('//*[@id="app"]/div/div[2]/p/span[3]'):
+                element = await page.xpath('//*[@id="app"]/div/div[2]/p/span[3]')
+                """
+                text = await page.evaluate_on_element(
+                    element[0], "(element) => element.textContent"
+                )
+                """
+                if element:
+                    text = await page.evaluate(
+                        "(element) => element.textContent", element[0]
+                    )
+                    if text == "存在安全风险，请进行手机短信验证":
+                        return True
+            return False
+        except Exception as e:
+            print("isSendSMSDirectly " + str(e))
+            return False
     # 前期操作
     usernum = workList[uid].account
     passwd = workList[uid].password
@@ -215,53 +229,76 @@ async def logon_main(chromium_path, workList, uid):
 
             # -----短信验证状态-----
             # <p data-v-4c407d20="" class="sub-title">选择认证方式</p>
-            elif await page.J(".sub-title"):
-                print("进入选择短信验证分支")
-                # 用户登录，运行进入短信验证过程
-                if not workList[uid].isAuto:
-                    """
-                    if SMS_TIMES > 1:
-                        if SMS_TIMES > 3:
-                            await browser.close()
-                            return
-                        workList[uid].status = "wrongSMS"
+            if not sms_sent:
+                if await page.J(".sub-title"):
+                    print("进入选择短信验证分支")
+                    # 用户登录，运行进入短信验证过程
+                    if not workList[uid].isAuto:
+                        """
+                        if SMS_TIMES > 1:
+                            if SMS_TIMES > 3:
+                                await browser.close()
+                                return
+                            workList[uid].status = "wrongSMS"
+                        else:
+                        """
+                        workList[uid].status = "SMS"
+                        workList[uid].msg = "需要短信验证"
+
+                        # 选择发送短信验证码，获取并输入短信验证码
+                        await sendSMS(page)
+                        await page.waitFor(3000)
+                        await typeSMScode(page, workList, uid)
+                        sms_sent = True
+
+                    # 自动续期，不允许进入短信验证过程，亦不会触发下面的验证码错误与超时分支
                     else:
-                    """
-                    workList[uid].status = "SMS"
-                    workList[uid].msg = "需要短信验证"
+                        workList[uid].status = "error"
+                        workList[uid].msg = "自动续期时不能使用短信验证"
+                        print("自动续期时不能使用短信验证")
+                        break
+                elif await isSendSMSDirectly(page):
+                    print("进入直接发短信分支")
+                
+                    if not workList[uid].isAuto:
+                        workList[uid].status = "SMS"
+                        workList[uid].msg = "需要短信验证"
+                        await sendSMSDirectly(page)
+                        await page.waitFor(3000)
+                        await typeSMScode(page, workList, uid)
+                        sms_sent = True
 
-                    # 选择发送短信验证码，获取并输入短信验证码
-                    await sendSMS(page, usernum, passwd, workList, uid)
-                    await typeSMScode(page, workList, uid)
-                    sms_sent = True
+                    else:
+                        workList[uid].status = "error"
+                        workList[uid].msg = "自动续期时不能使用短信验证"
+                        print("自动续期时不能使用短信验证")
+                        break
+            else:
+                # 验证码错误，超时
+                if await isStillInSMSCodeSentPage(page):
+                    print("进入验证码错误分支")
+                    IN_SMS_TIMES += 1
+                    if IN_SMS_TIMES % 3 == 0:
+                        workList[uid].SMS_CODE = None
+                        workList[uid].status = "wrongSMS"
+                        workList[uid].msg = "短信验证码错误，请重新输入"
+                        await typeSMScode(page, workList, uid)
 
-                # 自动续期，不允许进入短信验证过程，亦不会触发下面的验证码错误与超时分支
-                else:
+                elif await needResendSMSCode(page):
+                    print("进入验证码超时分支")
                     workList[uid].status = "error"
-                    print("自动续期时不能使用短信验证")
-                    workList[uid].msg = "自动续期时不能使用短信验证"
+                    workList[uid].msg = "验证码超时，请重新开始"
                     break
-
-            # 验证码错误，重试
-            elif await isStillInSMSCodeSentPage(page):
-                print("进入验证码错误分支")
-                IN_SMS_TIMES += 1
-                if IN_SMS_TIMES % 3 == 0:
-                    workList[uid].SMS_CODE = None
-                    workList[uid].status = "wrongSMS"
-                    workList[uid].msg = "短信验证码错误，请重新输入"
-                    await typeSMScode(page, workList, uid)
-
-            elif await needResendSMSCode(page):
-                print("进入验证码超时分支")
-                workList[uid].status = "error"
-                workList[uid].msg = "验证码超时，请重新开始"
-                break
 
             await asyncio.sleep(1)
         except Exception as e:
+            continue
+            print("异常退出")
+            print (e)
             await browser.close()
             raise e
+        
+    print("任务完成退出")
 
     await browser.close()
     await deleteSession(workList, uid)
@@ -284,9 +321,47 @@ async def typeuser(page, usernum, passwd):
     await page.click(".btn.J_ping.btn-active")  # 点击登录按钮
     await page.waitFor(random.randint(100, 2000))  # 随机等待1-2秒
 
+async def sendSMSDirectly(page):  # 短信验证函数
+    async def preSendSMS(page):
+        await page.waitForXPath(
+            '//*[@id="app"]/div/div[2]/div[2]/button'
+        )  # 等获取验证码元素
+        await page.waitFor(random.randint(1, 3) * 1000)  # 随机等待1-3秒
+        elements = await page.xpath(
+            '//*[@id="app"]/div/div[2]/div[2]/button'
+        )  # 选择元素
+        await elements[0].click()  # 点击元素
+        await page.waitFor(3000)  # 等待3秒，等待是否要滑块
 
+    await preSendSMS(page)
+    print("开始发送验证码")
+
+    try:
+        # 过滑块
+        while True:
+            if await page.xpath('//*[@id="captcha_modal"]/div/div[3]/div'):
+                await verification(page)  # 过滑块
+
+            # 点击图片验证
+            elif await page.xpath('//*[@id="captcha_modal"]/div/div[3]/button'):
+                await verification_shape(page)
+
+            else:
+                break
+            
+            """elif 其他验证
+                await page.waitFor(5000)  # 等待3秒
+                print("验证出错，正在重试……")
+                await page.reload()  # 刷新浏览器
+                await typeuser(page, usernum, passwd)  # 进行账号密码登录
+                return
+            """
+            await page.waitFor(3000)
+
+    except Exception as e:
+        raise e
 # 选择发送短信验证码
-async def sendSMS(page, usernum, passwd, workList, uid):  # 短信验证函数
+async def sendSMS(page):  # 短信验证函数
     async def preSendSMS(page):
         print("进行发送验证码前置操作")
         await page.waitForXPath(
@@ -312,20 +387,25 @@ async def sendSMS(page, usernum, passwd, workList, uid):  # 短信验证函数
 
     try:
         # 过滑块
-        if await page.xpath('//*[@id="captcha_modal"]/div/div[3]/div'):
-            await verification(page)  # 过滑块
+        while True:
+            if await page.xpath('//*[@id="captcha_modal"]/div/div[3]/div'):
+                await verification(page)  # 过滑块
 
-        # 点击图片验证
-        elif await page.xpath('//*[@id="captcha_modal"]/div/div[3]/button'):
-            await verification_shape(page)
+            # 点击图片验证
+            elif await page.xpath('//*[@id="captcha_modal"]/div/div[3]/button'):
+                await verification_shape(page)
 
-        """elif 其他验证
-            await page.waitFor(5000)  # 等待3秒
-            print("验证出错，正在重试……")
-            await page.reload()  # 刷新浏览器
-            await typeuser(page, usernum, passwd)  # 进行账号密码登录
-            return
-        """
+            else:
+                break
+            
+            """elif 其他验证
+                await page.waitFor(5000)  # 等待3秒
+                print("验证出错，正在重试……")
+                await page.reload()  # 刷新浏览器
+                await typeuser(page, usernum, passwd)  # 进行账号密码登录
+                return
+            """
+            await page.waitFor(3000)
 
     except Exception as e:
         raise e
@@ -458,7 +538,7 @@ async def verification(page):
     )  # 继续拖动滑块到目标位置
     await page.mouse.up()  # 模拟鼠标释放，完成滑块拖动
     # await page.waitFor(3000)  # 等待3秒，等待滑块验证结果
-
+    print ("过滑块结束")
 
 # 过形状、颜色
 async def verification_shape(page):
@@ -701,6 +781,7 @@ async def verification_shape(page):
                 await refresh_button.click()
                 await asyncio.sleep(random.uniform(2, 4))
                 continue
+    print ("过图形结束")
 
 
 # 获取并返回ck
