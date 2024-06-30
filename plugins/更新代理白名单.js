@@ -2,6 +2,7 @@
  * @author 小九九 t.me/gdot0
  * @name 更新代理白名单
  * @origin 小九九
+ * @team 小九九
  * @version 1.1.0
  * @rule ^chwlst$
  * @description 更换jl、su、51、yyy、ipzan白名单
