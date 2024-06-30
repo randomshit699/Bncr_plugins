@@ -18,6 +18,7 @@
  * @rule ^(edit) ([_a-zA-Z]{1,9}) (-?\d+(\.\d+)? \d+)$
  * @priority 10000
  * @admin false
+ * @public true
  * @disable false
  * @classification ["Server"]
  */
