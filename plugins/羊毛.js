@@ -2,6 +2,7 @@
  * @author 小九九 t.me/gdot0
  * @name 羊毛
  * @origin 小九九
+ * @team 小九九
  * @version 1.0.2
  * @description 借助QLTools api上传ck，QLTools项目：https://t.me/qltools
  * @rule ^(羊毛|refwool)$
@@ -9,6 +10,7 @@
  * @disable false
  * @admin false
  * @cron 0 0 7 *\/7 * *
+ * @classification ["Server"]
  */
 
 /*
