@@ -7,7 +7,7 @@
  * @rule ^chwlst$
  * @description 更换jl、su、51、yyy、ipzan白名单
  * @admin true
- * @public false
+ * @public true
  * @cron 0 0 *\/1 * * *
  * @priority 1000
  * @classification ["Server"]
