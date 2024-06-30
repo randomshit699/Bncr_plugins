@@ -1,6 +1,7 @@
 /**
  * @author IP变化通知
  * @name IP变化通知
+ * @team 小寒寒-小九九二改
  * @origin 小寒寒-小九九二改
  * @version 1.0.2
  * @rule ^IP变化通知$
