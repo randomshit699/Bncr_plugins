@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 # api.py
 # author: 小九九 t.me/gdot0
+run_port = 12345 #修改运行端口
+
 from quart import Quart, request, jsonify
 import hashlib, asyncio
 import login as backend
@@ -184,4 +186,4 @@ def delck():
 
     THREAD_DELCK(uid)
 """
-asyncio.new_event_loop().run_until_complete(app.run(host="192.168.0.233", port=17779))
+asyncio.new_event_loop().run_until_complete(app.run(host="0.0.0.0", port=run_port))
