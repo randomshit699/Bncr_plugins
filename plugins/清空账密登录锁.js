@@ -10,6 +10,7 @@
  * @admin true
  * @disable false
  * @cron 0 0 3 * * *
+ * @public true
  * @classification ["Server"]
  */
 //清空账密登录.ts的每日登录数量限制
