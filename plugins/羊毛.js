@@ -7,6 +7,7 @@
  * @description 借助QLTools api上传ck，QLTools项目：https://t.me/qltools
  * @rule ^(羊毛|refwool)$
  * @priority 1
+ * @public true
  * @disable false
  * @admin false
  * @cron 0 0 7 *\/7 * *
