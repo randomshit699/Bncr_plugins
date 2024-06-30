@@ -7,7 +7,7 @@
  * @description 调用青龙rwsck转换脚本（见附件文件夹）
  * @rule ^(rwsck转换)$
  * @admin true
- * @public false
+ * @public true
  * @priority 1000
  * @classification ["Qinglong"]
  */
