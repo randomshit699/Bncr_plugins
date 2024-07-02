@@ -88,28 +88,6 @@
     "id": "+rpFRGQTTs1GqLn0tZrqs2PQEao=",
     "isChatPlugin": true
   },
-  "6zqoHo1yk8udJ6k8sGJJXOeLW4Q=": {
-    "type": "github",
-    "name": "清空账密登录锁",
-    "author": "小九九 t.me/gdot0",
-    "team": "小九九",
-    "version": "v1.0.0",
-    "description": "清空账密登录锁",
-    "classification": [
-      "Server"
-    ],
-    "filename": "清空账密登录锁.js",
-    "fileDir": "/plugins/清空账密登录锁.js",
-    "systemVersionRange": "",
-    "isCron": false,
-    "isAdapter": false,
-    "isMod": false,
-    "isService": false,
-    "isAuthentication": false,
-    "isEncPlugin": false,
-    "id": "6zqoHo1yk8udJ6k8sGJJXOeLW4Q=",
-    "isChatPlugin": true
-  },
   "+2CwZb2QIgYXxQDkNTrX0uOJTAA=": {
     "type": "github",
     "name": "羊毛",
@@ -130,28 +108,6 @@
     "isAuthentication": false,
     "isEncPlugin": false,
     "id": "+2CwZb2QIgYXxQDkNTrX0uOJTAA=",
-    "isChatPlugin": true
-  },
-  "8Iu13U8NFTcgvPkecZ0R70sxuqU=": {
-    "type": "github",
-    "name": "账密登录",
-    "author": "小九九 t.me/gdot0",
-    "team": "小九九",
-    "version": "v1.0.0",
-    "description": "账号密码登录",
-    "classification": [
-      "Server"
-    ],
-    "filename": "账密登录.ts",
-    "fileDir": "/plugins/账密登录.ts",
-    "systemVersionRange": "",
-    "isCron": false,
-    "isAdapter": false,
-    "isMod": false,
-    "isService": false,
-    "isAuthentication": false,
-    "isEncPlugin": false,
-    "id": "8Iu13U8NFTcgvPkecZ0R70sxuqU=",
     "isChatPlugin": true
   }
 }
