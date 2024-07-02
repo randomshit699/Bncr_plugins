@@ -18,7 +18,7 @@ log.level = "info";
 
 const urls = ["https://4.ipw.cn/", "https://ip.3322.net/", "https://cdid.c-ctrip.com/model-poc2/h"]; //多个api避免某一个失效导致脚本失败
 const urlv6 = "http://"; //自备查ipv6地址的接口
-const domains = ["", ""]; //你的ddns域名，仅支持dynv6
+const domains = [""]; //你的ddns域名，仅支持dynv6
 
 const got = require("got");
 
