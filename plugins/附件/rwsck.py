@@ -1,4 +1,4 @@
-#这个放到青龙里面
+#这个放到青龙里
 #好像是ccawv大佬写的，也可能我记错了
 from requests import get, post, put, packages
 import requests
