@@ -1,8 +1,6 @@
-# Bncr_plugins
-无界机器人插件以及其他的一些自己写的或者从开源项目二改的脚本
-感谢所有开源项目作者
-具体使用说明都写在文件里面了  
+# Bncr_plugins  
+无界机器人插件和小脚本  
 
-偷撸，或者开源，永不加密  
-
-无界项目官网：https://anmours.github.io/Bncr/#/
+无界项目官网：https://anmours.github.io/Bncr/#/  
+无界tg群：https://t.me/BncrJSChat  
+无界入门级教程：https://notes.dsdog.tk/archives/1716304583708  
