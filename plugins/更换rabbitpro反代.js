@@ -39,10 +39,10 @@ module.exports = async (s) => {
     if (!Object.keys(ConfigDB.userConfig).length) {
         return await s.reply('请先发送"修改无界配置",或者前往前端web"插件配置"来完成插件首次配置');
     }
-    const baseUrl = ConfigDB.rabbit.base;
-    const name = ConfigDB.rabbit.name;
-    const passwd = ConfigDB.rabbit.passwd;
-    const urlArr = ConfigDB.rlist;
+    const baseUrl = ConfigDB.userConfig.rabbit.base;
+    const name = ConfigDB.userConfig.rabbit.name;
+    const passwd = ConfigDB.userConfig.rabbit.passwd;
+    const urlArr = ConfigDB.userConfig.rlist;
     if (!global.crbfd_lock) {
         global.crbfd_lock = true;
         try {
