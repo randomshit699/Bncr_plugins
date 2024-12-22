@@ -1,5 +1,5 @@
 /**
- * @author 小九九 t.me/gdot0
+ * @author 小九九
  * @name 更换rabbitpro反代
  * @origin 小九九
  * @team 小九九
@@ -7,44 +7,60 @@
  * @rule ^crbfd$
  * @description 检查反代列表，更换可用的rabbitpro反代
  * @admin true
- * @public true
+ * @public false
  * @priority 1000
- * @classification ["Server"]
  */
-//@rule触发词可自行更换
 
-const baseUrl = "http://"; //rabbitpro前台地址
-const name = ""; //后台用户名
-const passwd = ""; //后台密码
-const urlArr = [
-    "rabbit.cfyes.tech",
-    "mr-orgin.1888866.xyz",
-    "jd-orgin.1888866.xyz",
-    "mr.yanyuwangluo.cn",
-    "mr.118918.xyz",
-    "mr.5gyh.com",
-    "host.257999.xyz",
-    "log.madrabbit.eu.org",
-    "62.204.54.137:4566",
-    "fd.gp.mba:6379",
-    "mr.108168.xyz:10188",
-    "rabbit.gushao.club",
-]; //反代列表
+const jsonSchema = BncrCreateSchema.object({
+    rabbit: BncrCreateSchema.object({
+        base: BncrCreateSchema.string().setTitle("地址").setDescription(`最后不要带/`).setDefault("http://172.0.0.1:1234"),
+        name: BncrCreateSchema.string().setTitle("用户名").setDescription(`登录后台用的那个用户名`).setDefault("admin"),
+        passwd: BncrCreateSchema.string().setTitle("密码").setDescription(`登录后台用的那个密码`).setDefault("password"),
+    }).setTitle("兔子面板"),
+    rlist: BncrCreateSchema.array(BncrCreateSchema.string().setTitle("地址").setDescription(`前面不要http(s)://，最后不要带/`).setDefault("mr-orgin.1888866.xyz"))
+        .setTitle("反代地址")
+        .setDescription(`点击右下角+增加更多地址`)
+        .setDefault([
+            "rabbit.cfyes.tech",
+            "mr-orgin.1888866.xyz",
+            "jd-orgin.1888866.xyz",
+            "mr.118918.xyz",
+            "host.257999.xyz",
+            "log.madrabbit.eu.org",
+            "fd.gp.mba:6379",
+        ]),
+});
+const ConfigDB = new BncrPluginConfig(jsonSchema);
+
+const db = new BncrDB("rabbit");
 
 module.exports = async (s) => {
+    await ConfigDB.get();
+    if (!Object.keys(ConfigDB.userConfig).length) {
+        return await s.reply('请先发送"修改无界配置",或者前往前端web"插件配置"来完成插件首次配置');
+    }
+    const baseUrl = ConfigDB.rabbit.base;
+    const name = ConfigDB.rabbit.name;
+    const passwd = ConfigDB.rabbit.passwd;
+    const urlArr = ConfigDB.rlist;
     if (!global.crbfd_lock) {
         global.crbfd_lock = true;
         try {
             const axios = require("axios");
             const regBaseUrl = regHttpUrl(baseUrl);
             const authToken = await auth(name, passwd);
-            if (!authToken) return;
+            if (!authToken) throw new Error("兔子后台鉴权失败");
             let config = await getConfig(authToken);
-            if (!config) return;
-            const availUrl = await testAvailUrl(authToken, urlArr);
-            if (!availUrl) return;
+            let oldAuthUrl = config.ServerHost;
+            let n = urlArr.indexOf(oldAuthUrl) ?? 0;
+            if (!config) throw new Error("network problem");
+            const availUrl = await testAvailUrl(authToken, urlArr, n);
+            if (!availUrl) throw new Error("no url available");
+            await db.set("auth_url", `http://${availUrl}`);
             config.ServerHost = availUrl;
             await saveConfig(authToken, config);
+
+            await sysMethod.sleep(5);
             global.crbfd_lock = false;
 
             async function auth(name, passwd) {
@@ -68,7 +84,7 @@ module.exports = async (s) => {
                 } else if (result.code == 401) {
                     sysMethod.pushAdmin({
                         platform: [],
-                        msg: "更换rabbitpro反代：" + result.msg,
+                        msg: "更换rabbitpro反代auth：" + result.msg,
                     });
                     return;
                 }
@@ -109,11 +125,7 @@ module.exports = async (s) => {
                 if (result?.code == 0) {
                     sysMethod.pushAdmin({
                         platform: [],
-                        msg:
-                            "更换rabbitpro反代：" +
-                            result.msg +
-                            "\n现在使用的是：" +
-                            config.ServerHost,
+                        msg: "更换rabbitpro反代：" + result.msg + "\n现在使用的是：" + config.ServerHost,
                     });
                     return;
                 } else {
@@ -125,12 +137,36 @@ module.exports = async (s) => {
                 return;
             }
 
-            async function testAvailUrl(authToken, urlArr) {
-                urlArr = shuffleArray(urlArr);
-                for (let url of urlArr) {
+            async function testAvailUrl(authToken, urlArr, n) {
+                //urlArr = shuffleArray(urlArr);
+                //for (let url of urlArr) {
+                for (let i = 1; i < urlArr.length; i++) {
+                    url = urlArr[(n + i) % urlArr.length];
                     const regUrl = regHttpUrl(url);
                     console.log("正在测试：" + regUrl);
-                    await axios({
+
+                    let result = false;
+                    try {
+                        await axios({
+                            method: "get",
+                            timeout: 5000,
+                            url: regUrl + "/enc/M",
+                        })
+                            .then((response) => {
+                                result = response.data;
+                            })
+                            .catch((response) => {
+                                //if (!response?.response) console.log(response);
+                                result = response.response.data;
+                            });
+                    } catch (e) {
+                        console.log("crbfd testAvail:", e);
+                    }
+                    //if (result.toString().includes("message")) return url;
+                    console.log(result);
+                    if (result && result?.message?.data == "no data") return url;
+
+                    /* await axios({
                         method: "post",
                         url: regBaseUrl + "/admin/TestServerHost",
                         headers: {
@@ -146,7 +182,7 @@ module.exports = async (s) => {
                         .catch();
                     if (result.success == true) {
                         return url;
-                    }
+                    } */
                 }
                 sysMethod.pushAdmin({
                     platform: [],
@@ -172,11 +208,13 @@ module.exports = async (s) => {
                 return url;
             }
         } catch (err) {
-            global.crbfd_lock = false;
             sysMethod.pushAdmin({
                 platform: [],
-                msg: "更换rabbitpro反代：" + err,
+                msg: "更换rabbitpro反代err：" + err,
             });
+            await sysMethod.sleep(5);
+            global.crbfd_lock = false;
+            throw err;
         }
     } else {
         console.log("更换rabbitpro反代：另一个自动更换反代正在运行中");
