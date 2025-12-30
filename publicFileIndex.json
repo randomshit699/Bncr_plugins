@@ -22,6 +22,28 @@
     "id": "CcApUhCeCKB8zk/7wumFaa+ikiM=",
     "isChatPlugin": true
   },
+  "/jhkc6YDY/k4YvW61sfxBo62594=": {
+    "type": "github",
+    "name": "python",
+    "author": "小九九",
+    "team": "小九九",
+    "version": "1.0.0",
+    "description": "python插件兼容层对接插件",
+    "classification": [
+      "Service"
+    ],
+    "filename": "python.ts",
+    "fileDir": "/plugins/python.ts",
+    "systemVersionRange": "",
+    "isCron": false,
+    "isAdapter": false,
+    "isMod": false,
+    "isService": false,
+    "isAuthentication": false,
+    "isEncPlugin": true,
+    "id": "/jhkc6YDY/k4YvW61sfxBo62594=",
+    "isChatPlugin": true
+  },
   "/+jgd0vrhDpuxwExVXbW1GDGBdc=": {
     "type": "github",
     "name": "rwsck",
