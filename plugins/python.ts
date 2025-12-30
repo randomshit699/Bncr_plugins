@@ -7,7 +7,7 @@
  * @rule [\s\S]+
  * @description python插件兼容层对接插件
  * @admin false
- * @public false
+ * @public true
  * @disable false
  * @service false
  * @classification ["Service"]
