@@ -35,7 +35,7 @@ const python_bin = "/usr/bin/python3.11"; //python3.11所在位置，which pytho
 const initfurl = `https://raw.githubusercontent.com/randomshit699/Bncr2python/refs/heads/main/__init__.py`; //__init__.py下载地址
 const sofurl = `https://raw.githubusercontent.com/randomshit699/Bncr2python/refs/heads/main/python.cpython-311-x86_64-linux-musl.so`; //python.cpython-311-x86_64-linux-musl.so下载地址
 const cinitfsha256 = "a6d98d8d1d534a962eb9cb5ac8997b82b52293aee6aa6459ff649fc56699ede6"; //__init__.py sha256
-const csofsha256 = "b6e77fb5a5478ac7abbd520a064c242bfe0dca51f0dc3eaef2fa07f1013c0a65"; //python.cpython-311-x86_64-linux-musl.so sha256
+const csofsha256 = "2edb1554d9218d5f766fab05b9b7a669df389635012048587d6edee59a751848"; //python.cpython-311-x86_64-linux-musl.so sha256
 
 sysMethod.testModule(["reconnecting-websocket", "ws", "http-proxy-middleware", "axios"], { install: true });
 if (!sysMethod.testModule(["reconnecting-websocket", "ws", "http-proxy-middleware", "axios"])) {
