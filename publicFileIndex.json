@@ -27,7 +27,7 @@
     "name": "python",
     "author": "小九九",
     "team": "小九九",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "python插件兼容层对接插件",
     "classification": [
       "Service"
