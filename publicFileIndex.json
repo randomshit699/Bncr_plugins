@@ -1,6 +1,6 @@
 {
   "annotation": "该文件由系统自动生成. 用于插件市场索引,请勿编辑该文件中的任何内容",
-  "CcApUhCeCKB8zk/7wumFaa+ikiM=": {
+  "yw1Qi9CP9QRjr95Zp8USUn0VLIw=": {
     "type": "github",
     "name": "IP变化通知",
     "author": "IP变化通知",
@@ -11,7 +11,7 @@
       "Server"
     ],
     "filename": "IP变化通知.js",
-    "fileDir": "/plugins/IP变化通知.js",
+    "fileDir": "/plugins/XJJ/IP变化通知.js",
     "systemVersionRange": "",
     "isCron": false,
     "isAdapter": false,
@@ -19,10 +19,10 @@
     "isService": false,
     "isAuthentication": false,
     "isEncPlugin": false,
-    "id": "CcApUhCeCKB8zk/7wumFaa+ikiM=",
+    "id": "yw1Qi9CP9QRjr95Zp8USUn0VLIw=",
     "isChatPlugin": true
   },
-  "/jhkc6YDY/k4YvW61sfxBo62594=": {
+  "yZXNzERX/WbFv4wqPdVbDqFLLwo=": {
     "type": "github",
     "name": "python",
     "author": "小九九",
@@ -33,7 +33,7 @@
       "Service"
     ],
     "filename": "python.ts",
-    "fileDir": "/plugins/python.ts",
+    "fileDir": "/plugins/XJJ/python.ts",
     "systemVersionRange": "",
     "isCron": false,
     "isAdapter": false,
@@ -41,10 +41,10 @@
     "isService": false,
     "isAuthentication": false,
     "isEncPlugin": true,
-    "id": "/jhkc6YDY/k4YvW61sfxBo62594=",
+    "id": "yZXNzERX/WbFv4wqPdVbDqFLLwo=",
     "isChatPlugin": true
   },
-  "/+jgd0vrhDpuxwExVXbW1GDGBdc=": {
+  "2J0YzK1Fm6yiF0nI0FR8HHvJhrs=": {
     "type": "github",
     "name": "rwsck",
     "author": "小九九 t.me/gdot0",
@@ -55,7 +55,7 @@
       "Qinglong"
     ],
     "filename": "rwsck.js",
-    "fileDir": "/plugins/rwsck.js",
+    "fileDir": "/plugins/XJJ/rwsck.js",
     "systemVersionRange": "",
     "isCron": false,
     "isAdapter": false,
@@ -63,10 +63,10 @@
     "isService": false,
     "isAuthentication": false,
     "isEncPlugin": false,
-    "id": "/+jgd0vrhDpuxwExVXbW1GDGBdc=",
+    "id": "2J0YzK1Fm6yiF0nI0FR8HHvJhrs=",
     "isChatPlugin": true
   },
-  "aQ2J8WMqE7ux7zifO5bZjSgk2NU=": {
+  "jT3+YtO8d3BkSjW3++sxr8DD8ag=": {
     "type": "github",
     "name": "stockPrice",
     "author": "小九九 t.me/gdot0",
@@ -77,7 +77,7 @@
       "Server"
     ],
     "filename": "stockPrice.ts",
-    "fileDir": "/plugins/stockPrice.ts",
+    "fileDir": "/plugins/XJJ/stockPrice.ts",
     "systemVersionRange": "",
     "isCron": false,
     "isAdapter": false,
@@ -85,10 +85,10 @@
     "isService": false,
     "isAuthentication": false,
     "isEncPlugin": false,
-    "id": "aQ2J8WMqE7ux7zifO5bZjSgk2NU=",
+    "id": "jT3+YtO8d3BkSjW3++sxr8DD8ag=",
     "isChatPlugin": true
   },
-  "+2CwZb2QIgYXxQDkNTrX0uOJTAA=": {
+  "kZAL+9zWBMilrq53iwnIvvbmNVo=": {
     "type": "github",
     "name": "羊毛",
     "author": "小九九 t.me/gdot0",
@@ -99,7 +99,7 @@
       "Server"
     ],
     "filename": "羊毛.js",
-    "fileDir": "/plugins/羊毛.js",
+    "fileDir": "/plugins/XJJ/羊毛.js",
     "systemVersionRange": "",
     "isCron": false,
     "isAdapter": false,
@@ -107,7 +107,7 @@
     "isService": false,
     "isAuthentication": false,
     "isEncPlugin": false,
-    "id": "+2CwZb2QIgYXxQDkNTrX0uOJTAA=",
+    "id": "kZAL+9zWBMilrq53iwnIvvbmNVo=",
     "isChatPlugin": true
   }
 }
